@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="../styles.css">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Frases Célebres por Escritores</h1>
+  <p id="padre">
+    <a class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+      aria-controls="collapseExample" onclick="traer()">
+      Link with href
+    </a>
+    <a class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+      aria-controls="collapseExample" onclick="traer()">
+      Link with href
+    </a>
+  </p>
+  <div class="collapse" id="collapseExample">
+  </div>
+
+
+  <script>
+    /*var padre = document.getElementById("padre");
+    var primerElemento = document.getElementsByTagName("a");
+    console.log(primerElemento);*/
+    
+    
+    fetch("https://dataserverdaw.herokuapp.com/escritores")
+    .then(res => res.json())
+        .then(data => {
+          var numero = (data.escritores).length; 
+          var n=0;
+          for(i=0; i<numero; i++){
+           n++;
+            var nuevo=data.escritores[i].nombre
+            var id = data.escritores[i].id
+            
+            
+            var elemento=document.createElement("a");
+            elemento.setAttribute("class","btn btn-secondary");
+            elemento.setAttribute("data-toggle","collapse" );
+            elemento.setAttribute("href","#collapseExample");
+            elemento.setAttribute("role","button");
+            elemento.setAttribute("aria-expanded","false");
+            elemento.setAttribute("href","#collapseExample");
+            elemento.setAttribute( "aria-controls","collapseExample");
+            elemento.setAttribute("onclick","traer()");
+            elemento.setAttribute("id",id);
+            
+            var contenido=document.createTextNode(nuevo);
+            elemento.appendChild(contenido);
+            
+            var padre=document.getElementsByTagName("p");
+            var primerElemento=document.getElementsByTagName("a")[0];
+            
+            padre[0].insertBefore(elemento, primerElemento);
+          }
+        })
+
+
+    var contenido = document.querySelector("#collapseExample")
+    function traer() {
+      fetch("https://dataserverdaw.herokuapp.com/escritores/frases")
+        .then(res => res.json())
+        .then(data => {
+          var numero1 =  (data.frases).length;
+          for(i=0; i<numero1;i++){
+          var frases=data.frases[i];
+          }
+          
+          contenido.innerHTML = `
+        <div class="card card-body"> ${data.frases['0'].texto} </div>`
+
+        })
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
